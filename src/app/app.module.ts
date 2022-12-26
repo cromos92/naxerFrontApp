@@ -9,6 +9,11 @@ import { ComparadorComponent } from './comparador/comparador.component';
 import { HomeComponent } from './home/home.component';
 import { VerProductoComponent } from './ver-producto/ver-producto.component';
 import { VerComparacionesComponent } from './ver-comparaciones/ver-comparaciones.component';
+import {  ApiModule, BASE_PATH    } from './service';
+
+import { HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environment.prod.ts/environment.prod';
+import { ProductosComponent } from './productos/productos.component';
 
 @NgModule({
   declarations: [
@@ -18,13 +23,18 @@ import { VerComparacionesComponent } from './ver-comparaciones/ver-comparaciones
     ComparadorComponent,
     HomeComponent,
     VerProductoComponent,
-    VerComparacionesComponent
+    VerComparacionesComponent,
+    ProductosComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ApiModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    { provide:BASE_PATH , useValue:environment.basePath}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
