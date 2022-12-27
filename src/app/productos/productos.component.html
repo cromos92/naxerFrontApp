@@ -9,7 +9,7 @@
 
 
                 <div class="col-md-4 text-end">
-                    <button type="button" class="btn btn-primary">Agregar Producto</button>
+                    <button type="button" (click)="openModal()" class="btn btn-primary">Agregar Producto</button>
                     <button type="button" class="btn btn-outline-primary me-2">Eliminar Producto</button>
                 </div>
             </header>
@@ -185,10 +185,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form [formGroup]="productForm">
+                    <label for="">nombre</label>
+                    <input formControlName="descripcion" type="text">
+                    <button type="button" class="btn btn-primary">Understood</button>
+
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Understood</button>
+
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 
             </div>

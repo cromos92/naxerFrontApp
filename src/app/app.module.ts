@@ -14,6 +14,7 @@ import {  ApiModule, BASE_PATH    } from './service';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environment.prod.ts/environment.prod';
 import { ProductosComponent } from './productos/productos.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,17 +25,17 @@ import { ProductosComponent } from './productos/productos.component';
     HomeComponent,
     VerProductoComponent,
     VerComparacionesComponent,
-    ProductosComponent
+    ProductosComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ApiModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [
-    { provide:BASE_PATH , useValue:environment.basePath}
-  ],
-  bootstrap: [AppComponent]
+  providers: [{ provide: BASE_PATH, useValue: environment.basePath }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
