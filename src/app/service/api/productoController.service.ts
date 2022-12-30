@@ -16,20 +16,19 @@ import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent }                           from '@angular/common/http';
 import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
-
+import { Observable }                                        from 'rxjs';
 
 import { Producto } from '../model/producto';
 import { ProductoDto } from '../model/productoDto';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { Observable } from 'rxjs';
 
 
 @Injectable()
 export class ProductoControllerService {
 
-    protected basePath = '/';
+    protected basePath = '';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
