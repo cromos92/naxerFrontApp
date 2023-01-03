@@ -15,11 +15,13 @@ declare var window: any;
   styleUrls: ['./productos.component.css'],
 })
 export class ProductosComponent implements OnInit {
+  pageActual: number = 1;
   title = 'productApp';
-  products!: Producto[];
+
   formModal: any;
   productForm!: FormGroup;
-    listaProducto:Producto[] | undefined;
+  Products:any[] =[];
+
   constructor(
     private _builder: FormBuilder,
     private productosService: ProductoControllerService
@@ -30,19 +32,19 @@ export class ProductosComponent implements OnInit {
       precio: new FormControl('', [Validators.required]),
       url_imagen: new FormControl('', [Validators.required]),
     });
-
+    this.obtenerProductos();
+  }
+  obtenerProductos() {
+    this.productosService.getAllProductsUsingGET().subscribe((data: any) => {
+      console.log(data);
+      this.Products = data;
+    });
   }
 
   ngOnInit(): void {
-
-
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('modalProductos')
     );
-    this.productosService.getAllProductsUsingGET().subscribe((all) => {
-      console.log(all);
-      this.listaProducto=all;
-    });
   }
   openModal() {
     this.formModal.show();
@@ -55,7 +57,7 @@ export class ProductosComponent implements OnInit {
       nombre: values.nombre,
       descripcion: values.descripcion,
       precio: values.precio,
-
+      urlImage: values.url_imagen,
     };
     this.productosService.createProductUsingPOST(productDte).subscribe((x) => {
       console.log(x);

@@ -12,9 +12,9 @@
 
 
 export interface ProductoDto { 
+    descripcion?: string;
     fechaCreacion?: Date;
-    idPuntuacion?: number;
-    idUser?: number;
+    idCategoria?: number;
     nombre?: string;
     precio?: number;
     urlImage?: string;

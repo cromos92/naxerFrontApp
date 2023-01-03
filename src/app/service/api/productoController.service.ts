@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class ProductoControllerService {
 
-    protected basePath = '';
+    protected basePath = 'https://localhost:8080';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -140,6 +140,42 @@ export class ProductoControllerService {
         return this.httpClient.delete<string>(`${this.basePath}/products/${encodeURIComponent(String(id))}`,
             {
                 params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * getAllProductoWithCategory
+     *
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllProductoWithCategoryUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<Producto>>;
+    public getAllProductoWithCategoryUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Producto>>>;
+    public getAllProductoWithCategoryUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Producto>>>;
+    public getAllProductoWithCategoryUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Array<Producto>>(`${this.basePath}/products/categorys`,
+            {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

@@ -12,7 +12,7 @@ const routes: Routes = [
  {path: 'comparador', component: ComparadorComponent},
 
  {path: 'ver_comparaciones', component: VerComparacionesComponent},
-  {path: 'verProductos/:id?', component: ProductosComponent},
+  {path: 'verProductos', component: ProductosComponent},
 
 ];
 

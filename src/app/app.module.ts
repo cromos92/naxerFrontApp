@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environment.prod.ts/environment.prod';
 import { ProductosComponent } from './productos/productos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
   ],
   providers: [{ provide: BASE_PATH, useValue: environment.basePath }],
   bootstrap: [AppComponent],

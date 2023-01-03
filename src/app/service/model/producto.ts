@@ -12,10 +12,10 @@
 
 
 export interface Producto { 
+    descripcion?: string;
     fechaCreacion?: Date;
     id?: number;
-    idPuntuacion?: number;
-    idUser?: number;
+    idCategoria?: number;
     nombre?: string;
     precio?: number;
     urlImage?: string;
