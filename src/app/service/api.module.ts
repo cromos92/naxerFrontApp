@@ -9,12 +9,17 @@ import { HttpClient } from '@angular/common/http';
 
 import { CategoriaControllerService } from './api/categoriaController.service';
 import { ProductoControllerService } from './api/productoController.service';
+import { PuntuacionControllerService } from './api/puntuacionController.service';
 
 @NgModule({
   imports: [],
   declarations: [],
   exports: [],
-  providers: [CategoriaControllerService, ProductoControllerService],
+  providers: [
+    CategoriaControllerService,
+    ProductoControllerService,
+    PuntuacionControllerService,
+  ],
 })
 export class ApiModule {
   public static forRoot(

@@ -5,7 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CategoriaControllerService } from '../service';
+import Swal from 'sweetalert2';
+import { CategoriaControllerService, PuntuacionControllerService } from '../service';
 import { ProductoControllerService } from '../service/api/productoController.service';
 import { Producto } from '../service/model/producto';
 import { ProductoDto } from '../service/model/productoDto';
@@ -22,13 +23,15 @@ export class ProductosComponent implements OnInit {
   formModalPuntuacion: any;
   productForm!: FormGroup;
   puntuacionForm!: FormGroup;
-  formModalVerPuntuaciones:any;
-  Products:any[] =[];
-  Categoria:any[]=[];
+  formModalVerPuntuaciones: any;
+  Products: any[] = [];
+  Categoria: any[] = [];
+  productoPorIDBuscaso:Producto[] = [];
   constructor(
     private _builder: FormBuilder,
     private productosService: ProductoControllerService,
-    private categoriaService: CategoriaControllerService
+    private categoriaService: CategoriaControllerService,
+    private puntuacionService: PuntuacionControllerService
   ) {
     this.productForm = this._builder.group({
       nombre: new FormControl('', [Validators.required]),
@@ -36,35 +39,42 @@ export class ProductosComponent implements OnInit {
       precio: new FormControl('', [Validators.required]),
       url_imagen: new FormControl('', [Validators.required]),
     });
-    this.puntuacionForm= this._builder.group({
-      valoracionPrecio: new FormControl('',[Validators.required]),
-      valoracionCalidad: new FormControl('',[Validators.required]),
-      valoracionDiseno: new FormControl('',[Validators.required]),
-      comentario: new FormControl('',Validators.required)
-    })
+    this.puntuacionForm = this._builder.group({
+      valoracionPrecio: new FormControl('', [Validators.required]),
+      valoracionCalidad: new FormControl('', [Validators.required]),
+      valoracionDiseno: new FormControl('', [Validators.required]),
+      comentario: new FormControl('', Validators.required),
+    });
     this.obtenerProductos();
     this.obtenerCategorias();
   }
-  
+
   obtenerProductos() {
     this.productosService.getAllProductsUsingGET().subscribe((data: any) => {
       console.log(data);
       this.Products = data;
     });
   }
-  obtenerCategorias(){
-    this.categoriaService.getAllCategorysUsingGET().subscribe((data:any)=>{
+  obtenerCategorias() {
+    this.categoriaService.getAllCategorysUsingGET().subscribe((data: any) => {
       console.log(data);
       this.Categoria = data;
-    })
+    });
   }
-
+  obtenerProductoPorID(id: number){
+    this.productosService
+      .getProductByIDUsingGET(id)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.productoPorIDBuscaso=data;
+      });
+  }
   ngOnInit(): void {
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('modalProductos')
     );
     this.formModalPuntuacion = new window.bootstrap.Modal(
-document.getElementById('formModalPuntuacion')
+      document.getElementById('formModalPuntuacion')
     );
     this.formModalVerPuntuaciones = new window.bootstrap.Modal(
       document.getElementById('verPuntuaciones')
@@ -73,17 +83,31 @@ document.getElementById('formModalPuntuacion')
   openModal() {
     this.formModal.show();
   }
-  openModalPuntuacion(id:any){
-    
+  openModalPuntuacion(id: any) {
     this.formModalPuntuacion.show();
   }
-  openModalVerPuntuacion(id:any){
+  openModalVerPuntuacion(id: any) {
     console.log('modal puntuacion');
     this.formModalVerPuntuaciones.show();
   }
-enviarPuntuacion(values:any){
-console.log(values);
-}
+  enviarPuntuacion(values: any) {
+
+      let puntuacion = {
+        nivelCalidad: 1,
+        nivelPrecio: 2,
+        nivelDiseno: 3,
+        precio: 4,
+        comentario: 'values.url_imagen',
+        producto: this.productoPorIDBuscaso,
+      };
+
+
+      this.puntuacionService.crearPuntuacionUsingPOST(  puntuacion).subscribe((data)=>{
+
+      })
+
+
+  }
   enviarFormProductos(values: any) {
     const now = new Date();
     let productDte = {
@@ -94,8 +118,13 @@ console.log(values);
       urlImage: values.url_imagen,
     };
     this.productosService.createProductUsingPOST(productDte).subscribe((x) => {
-      console.log(x);
+      Swal.fire({
+        icon: 'success',
+        title: 'Operación Correcta',
+        text: 'Producto Creado Correctamente',
+      });
+      this.obtenerProductos();
+       this.formModal.hide();
     });
-    console.log(values);
   }
 }

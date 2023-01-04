@@ -9,13 +9,14 @@ import { ComparadorComponent } from './comparador/comparador.component';
 import { HomeComponent } from './home/home.component';
 import { VerProductoComponent } from './ver-producto/ver-producto.component';
 import { VerComparacionesComponent } from './ver-comparaciones/ver-comparaciones.component';
-import {  ApiModule, BASE_PATH    } from './service';
+import { ApiModule, BASE_PATH } from './service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environment.prod.ts/environment.prod';
 import { ProductosComponent } from './productos/productos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [{ provide: BASE_PATH, useValue: environment.basePath }],
   bootstrap: [AppComponent],
