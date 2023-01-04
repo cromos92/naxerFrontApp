@@ -1,9 +1,12 @@
 <div class="album py-5 bg-light">
     <div class="container">
         <div class="container">
-            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <header
+                class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
                 </a>
 
 
@@ -17,14 +20,16 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div class="col" *ngFor='let product of Products | paginate: { itemsPerPage: 6, currentPage: pageActual}'>
                 <div class="card shadow-sm">
-                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" [src]="product.urlImage" [alt]="product.urlImage">
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" [src]="product.urlImage"
+                        [alt]="product.urlImage">
                     <div class="card-body">
                         <p class="card-text text-center fw-bolder"> {{ product.nombre}}</p>
                         <p class="card-text text-center fw-normal"> {{ product.descripcion}}</p>
                         <div class="d-flex justify-content-center">
                             <div class="btn-group center">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Ver Producto</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Puntuar</button>
+                                <button type="button" (click)="openModalVerPuntuacion(product.id)" class="btn btn-sm btn-outline-secondary">Ver Puntuaciones</button>
+                                <button type="button" (click)="openModalPuntuacion(product.id)"
+                                    class="btn btn-sm btn-outline-secondary">Puntuar</button>
                             </div>
 
                         </div>
@@ -43,7 +48,8 @@
 
     </div>
 </div>
-<div class="modal fade" id="modalProductos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalProductos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -59,26 +65,212 @@
                         </div>
                         <div class="col-md-12">
                             <label for="">Descripcion</label>
-                            <input id="descripcion" name="descripcion" class="form-control" formControlName="descripcion" type="text">
+                            <input id="descripcion" name="descripcion" class="form-control"
+                                formControlName="descripcion" type="text">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="">Categoria</label>
+                            <select class="form-select" id="categoria" name="categoria"
+                                aria-label="Default select example">
+                                <option selected>Seleccionar Categoria</option>
+                                <option *ngFor='let category of Categoria' [value]="category.id">
+                                    {{category.nombre}}
+                                </option>
+                            </select>
                         </div>
                         <div class="col-md-12">
                             <label for="">URL Imagen</label>
-                            <input id="url_imagen" name="url_imagen" class="form-control" formControlName="url_imagen" type="text">
+                            <input id="url_imagen" name="url_imagen" class="form-control" formControlName="url_imagen"
+                                type="text">
                         </div>
                         <div class="col-md-12">
                             <label for="">Precio</label>
-                            <input id="precio" name="precio" class="form-control" formControlName="precio" type="number">
+                            <input id="precio" name="precio" class="form-control" formControlName="precio"
+                                type="number">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <br>
                         <div class="text-center">
-                            <button [disabled]="productForm.invalid" type="submit" class="btn btn-primary">Crear Producto</button>
+                            <button [disabled]="productForm.invalid" type="submit" class="btn btn-primary">Crear
+                                Producto</button>
                         </div>
                     </div>
 
 
                 </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="formModalPuntuacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Puntuacion de Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="puntuacionForm" (ngSubmit)="enviarPuntuacion(puntuacionForm.value)">
+                    <div class="form-group row">
+                        <div class="col-md-12 text-center">
+                            <span for="">Valoracion Precio</span>
+                            <div class="clasificacion">
+                                <input type="radio" id="radioPrecio5" formControlName="valoracionPrecio"
+                                    name="valoracionPrecio" value="5">
+                                <label for="radioPrecio5">★</label>
+                                <input type="radio" id="radioPrecio4" formControlName="valoracionPrecio"
+                                    name="valoracionPrecio" value="4">
+                                <label for="radioPrecio4">★</label>
+                                <input type="radio" id="radioPrecio3" formControlName="valoracionPrecio"
+                                    name="valoracionPrecio" value="3">
+                                <label for="radioPrecio3">★</label>
+                                <input type="radio" id="radioPrecio2" formControlName="valoracionPrecio"
+                                    name="valoracionPrecio" value="2">
+                                <label for="radioPrecio2">★</label>
+                                <input type="radio" id="radioPrecio1" formControlName="valoracionPrecio"
+                                    name="valoracionPrecio" value="1">
+                                <label for="radioPrecio1">★</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <span for="">Valoracion Calidad</span>
+                            <div class="clasificacion">
+                                <input type="radio" id="radioCalidad5" formControlName="valoracionCalidad"
+                                    name="valoracionCalidad" value="5">
+                                <label for="radioCalidad5">★</label>
+                                <input type="radio" id="radioCalidad4" formControlName="valoracionCalidad"
+                                    name="valoracionCalidad" value="4">
+                                <label for="radioCalidad4">★</label>
+                                <input type="radio" id="radioCalidad3" formControlName="valoracionCalidad"
+                                    name="valoracionCalidad" value="3">
+                                <label for="radioCalidad3">★</label>
+                                <input type="radio" id="radioCalidad2" formControlName="valoracionCalidad"
+                                    name="valoracionCalidad" value="2">
+                                <label for="radioCalidad2">★</label>
+                                <input type="radio" id="radioCalidad1" formControlName="valoracionCalidad"
+                                    name="valoracionCalidad" value="1">
+                                <label for="radioCalidad1">★</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <span for="">Valoracion Diseno</span>
+                            <div class="clasificacion">
+                                <input type="radio" id="radioDiseno5" formControlName="valoracionDiseno"
+                                    name="valoracionDiseno" value="5">
+                                <label for="radioDiseno5">★</label>
+                                <input type="radio" id="radioDiseno4" formControlName="valoracionDiseno"
+                                    name="valoracionDiseno" value="4">
+                                <label for="radioDiseno4">★</label>
+                                <input type="radio" id="radioDiseno3" formControlName="valoracionDiseno"
+                                    name="valoracionDiseno" value="3">
+                                <label for="radioDiseno3">★</label>
+                                <input type="radio" id="radioDiseno2" formControlName="valoracionDiseno"
+                                    name="valoracionDiseno" value="2">
+                                <label for="radioDiseno2">★</label>
+                                <input type="radio" id="radioDiseno1" formControlName="valoracionDiseno"
+                                    name="valoracionDiseno" value="1">
+                                <label for="radioDiseno1">★</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                             <span >Comentario</span>
+                      
+                                <textarea class="form-control" cols="30" rows="5" formControlName="comentario"></textarea>
+                            </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <br>
+                        <div class="text-center">
+                            <button [disabled]="puntuacionForm.invalid" type="submit" class="btn btn-primary">Crear
+                                Producto</button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="verPuntuaciones" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Ver Puntuaciones Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-12 col-lg-6">
+                        
+                              <div class="card mb-4">
+                                <div class="card-body">
+                                  <p>Type your note, and hit enter to add it</p>
+                      
+                                  <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center">
+                                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar" width="25"
+                                        height="25" />
+                                      <p class="small mb-0 ms-2">Johny</p>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center">
+                                      <p class="small text-muted mb-0">Upvote?</p>
+                                      <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+                                      <p class="small text-muted mb-0">4</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                      
+                              <div class="card mb-4">
+                                <div class="card-body">
+                                  <p>Type your note, and hit enter to add it</p>
+                      
+                                  <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center">
+                        
+                                        <p class="small mb-0 ms-2 offset-md-4">Precio</p>
+                                        <label  class="offset-md-1 valorada">4★</label>
+                                
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center">
+                        
+                                        <p class="small mb-0 ms-2 offset-md-4">Calidad</p>
+                                        <label  class="offset-md-1 valorada">4★</label>
+                                
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center">
+                        
+                                        <p class="small mb-0 ms-2 offset-md-4">Diseño</p>
+                                        <label  class="offset-md-1 valorada">4★</label>
+                                
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                      
+                     
+                              
+                        </div>
+                      </div>
+                </div>
+           
             </div>
             <div class="modal-footer">
 
