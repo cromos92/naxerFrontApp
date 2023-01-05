@@ -6,7 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { CategoriaControllerService, PuntuacionControllerService } from '../service';
+import {
+  CategoriaControllerService,
+  PuntuacionControllerService,
+} from '../service';
 import { ProductoControllerService } from '../service/api/productoController.service';
 import { Producto } from '../service/model/producto';
 import { ProductoDto } from '../service/model/productoDto';
@@ -18,6 +21,7 @@ declare var window: any;
 })
 export class ProductosComponent implements OnInit {
   pageActual: number = 1;
+  idProductoModal:Number | undefined;
   title = 'productApp';
   formModal: any;
   formModalPuntuacion: any;
@@ -26,7 +30,7 @@ export class ProductosComponent implements OnInit {
   formModalVerPuntuaciones: any;
   Products: any[] = [];
   Categoria: any[] = [];
-  productoPorIDBuscaso:Producto[] = [];
+  productoPorIDBuscaso: Producto[] = [];
   constructor(
     private _builder: FormBuilder,
     private productosService: ProductoControllerService,
@@ -40,6 +44,7 @@ export class ProductosComponent implements OnInit {
       url_imagen: new FormControl('', [Validators.required]),
     });
     this.puntuacionForm = this._builder.group({
+
       valoracionPrecio: new FormControl('', [Validators.required]),
       valoracionCalidad: new FormControl('', [Validators.required]),
       valoracionDiseno: new FormControl('', [Validators.required]),
@@ -61,13 +66,11 @@ export class ProductosComponent implements OnInit {
       this.Categoria = data;
     });
   }
-  obtenerProductoPorID(id: number){
-    this.productosService
-      .getProductByIDUsingGET(id)
-      .subscribe((data: any) => {
-        console.log(data);
-        this.productoPorIDBuscaso=data;
-      });
+  obtenerProductoPorID(id: number) {
+    this.productosService.getProductByIDUsingGET(id).subscribe((data: any) => {
+      console.log(data);
+      this.productoPorIDBuscaso = data;
+    });
   }
   ngOnInit(): void {
     this.formModal = new window.bootstrap.Modal(
@@ -84,6 +87,8 @@ export class ProductosComponent implements OnInit {
     this.formModal.show();
   }
   openModalPuntuacion(id: any) {
+  console.log(id);
+this.idProductoModal=id;
     this.formModalPuntuacion.show();
   }
   openModalVerPuntuacion(id: any) {
@@ -91,22 +96,17 @@ export class ProductosComponent implements OnInit {
     this.formModalVerPuntuaciones.show();
   }
   enviarPuntuacion(values: any) {
+    let puntuacion = {
+      nivelCalidad: values.valoracionCalidad,
+      nivelPrecio: values.valoracionPrecio,
+      nivelDiseno: values.valoracionDiseno,
+      comentario: values.comentario,
+      id_producto: this.idProductoModal,
+    };
 
-      let puntuacion = {
-        nivelCalidad: 1,
-        nivelPrecio: 2,
-        nivelDiseno: 3,
-        precio: 4,
-        comentario: 'values.url_imagen',
-        producto: this.productoPorIDBuscaso,
-      };
-
-
-      this.puntuacionService.crearPuntuacionUsingPOST(  puntuacion).subscribe((data)=>{
-
-      })
-
-
+    this.puntuacionService
+      .crearPuntuacionUsingPOST(puntuacion)
+      .subscribe((data) => {});
   }
   enviarFormProductos(values: any) {
     const now = new Date();
@@ -124,7 +124,7 @@ export class ProductosComponent implements OnInit {
         text: 'Producto Creado Correctamente',
       });
       this.obtenerProductos();
-       this.formModal.hide();
+      this.formModal.hide();
     });
   }
 }
