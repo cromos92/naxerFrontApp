@@ -17,6 +17,8 @@ import { ProductosComponent } from './productos/productos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { Select2Module } from 'ng-select2-component';
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +39,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     ReactiveFormsModule,
     NgxPaginationModule,
     SweetAlert2Module.forRoot(),
+    Select2Module,
+
   ],
   providers: [{ provide: BASE_PATH, useValue: environment.basePath }],
   bootstrap: [AppComponent],

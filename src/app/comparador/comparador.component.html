@@ -1,2 +1,15 @@
-<h4>
-    ok</h4>
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="nombre" class="label">Seleccionar Producto</label>
+                <select2 [multiple]="true" [data]="data1" (update)="update('value1', $event)" (change)="change('change1', $event)" (search)="search('search1')" resettable id="selec2-1">
+                </select2>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

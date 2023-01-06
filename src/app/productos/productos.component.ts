@@ -21,7 +21,7 @@ declare var window: any;
 })
 export class ProductosComponent implements OnInit {
   pageActual: number = 1;
-  idProductoModal:Number | undefined;
+  idProductoModal: Number | undefined;
   title = 'productApp';
   formModal: any;
   formModalPuntuacion: any;
@@ -30,6 +30,7 @@ export class ProductosComponent implements OnInit {
   formModalVerPuntuaciones: any;
   Products: any[] = [];
   Categoria: any[] = [];
+  Puntuacion: any[] = [];
   productoPorIDBuscaso: Producto[] = [];
   constructor(
     private _builder: FormBuilder,
@@ -44,7 +45,6 @@ export class ProductosComponent implements OnInit {
       url_imagen: new FormControl('', [Validators.required]),
     });
     this.puntuacionForm = this._builder.group({
-
       valoracionPrecio: new FormControl('', [Validators.required]),
       valoracionCalidad: new FormControl('', [Validators.required]),
       valoracionDiseno: new FormControl('', [Validators.required]),
@@ -72,6 +72,13 @@ export class ProductosComponent implements OnInit {
       this.productoPorIDBuscaso = data;
     });
   }
+  obtenerPuntuacionPorIdProducto(id: number) {
+    this.puntuacionService
+      .getAllPuntuacionPorIDUsingGET(id)
+      .subscribe((data: any) => {
+        this.Puntuacion = data;
+      });
+  }
   ngOnInit(): void {
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('modalProductos')
@@ -87,12 +94,15 @@ export class ProductosComponent implements OnInit {
     this.formModal.show();
   }
   openModalPuntuacion(id: any) {
-  console.log(id);
-this.idProductoModal=id;
+    console.log(id);
+    this.idProductoModal = id;
     this.formModalPuntuacion.show();
   }
   openModalVerPuntuacion(id: any) {
+    let data = this.obtenerPuntuacionPorIdProducto(id);
+
     console.log('modal puntuacion');
+
     this.formModalVerPuntuaciones.show();
   }
   enviarPuntuacion(values: any) {
@@ -106,7 +116,15 @@ this.idProductoModal=id;
 
     this.puntuacionService
       .crearPuntuacionUsingPOST(puntuacion)
-      .subscribe((data) => {});
+      .subscribe((data) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Operación Correcta',
+          text: 'Producto Punteado Correctamente',
+        });
+        this.puntuacionForm.reset();
+        this.formModalPuntuacion.hide();
+      });
   }
   enviarFormProductos(values: any) {
     const now = new Date();
@@ -124,6 +142,7 @@ this.idProductoModal=id;
         text: 'Producto Creado Correctamente',
       });
       this.obtenerProductos();
+      this.productForm.reset();
       this.formModal.hide();
     });
   }
