@@ -18,7 +18,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { Select2Module } from 'ng-select2-component';
- 
+import { LoginComponent } from './login/login.component';
+import { CookieService } from 'ngx-cookie-service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +31,7 @@ import { Select2Module } from 'ng-select2-component';
     VerProductoComponent,
     VerComparacionesComponent,
     ProductosComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,7 @@ import { Select2Module } from 'ng-select2-component';
     Select2Module,
 
   ],
-  providers: [{ provide: BASE_PATH, useValue: environment.basePath }],
+  providers: [CookieService,{ provide: BASE_PATH, useValue: environment.basePath }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

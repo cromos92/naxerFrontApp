@@ -1,0 +1,45 @@
+<div class="container">
+    <div id="containerLogin" class="row">
+
+        <form [formGroup]="loginForm" (ngSubmit)="enviarCredencialesLogin(loginForm.value)">
+            <div class="row">
+                <div class="col-center-6 ">
+                    <div class="row ">
+                        <h1 class="h3 mb-3 fw-normal text-center ">Login</h1>
+                        <div class="row justify-content-center ">
+                            <div class="col-md-6 ">
+                                <div class="form-floating ">
+                                    <input type="email" formControlName="email" class="form-control " id="emailLogin " placeholder="name@example.com ">
+                                    <label for="emailLogin ">Correo Electrnico</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center ">
+                            <div class="col-md-6 ">
+                                <div class="form-floating ">
+                                    <input type="password" formControlName="password" class="form-control " id="password " placeholder="Password ">
+                                    <label for="password ">Password</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center ">
+                            <br>
+                            <div class="col-md-6 ">
+
+                                <button [disabled]="loginForm.invalid" class="w-100 btn btn-lg btn-primary " type="submit ">Login</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </form>
+
+    </div>
+
+</div>
