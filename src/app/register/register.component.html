@@ -1,0 +1,53 @@
+<div class="container">
+    <div id="containerLogin" class="row">
+
+        <form [formGroup]="registrarForm" (ngSubmit)="registrarUsuario(registrarForm.value)">
+            <div class="row">
+                <div class="col-center-6 ">
+                    <div class="row ">
+                        <h1 class="h3 mb-3 fw-normal text-center ">Registro de usuarios</h1>
+                        <div class="row justify-content-center ">
+                            <div class="col-md-6 ">
+                                <div class="form-floating ">
+                                    <input type="email"  formControlName="nombreRegister" class="form-control " id="emailRegister " placeholder="name@example.com ">
+                                    <label for="emailRegister ">Nombre</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center ">
+                            <div class="col-md-6 ">
+                                <div class="form-floating ">
+                                    <input type="email" formControlName="emailRegister"  class="form-control " id="emailRegister " placeholder="name@example.com ">
+                                    <label for="emailRegister ">Correo Electronico</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center ">
+                            <div class="col-md-6 ">
+                                <div class="form-floating ">
+                                    <input type="password"  formControlName="passwordRegister" class="form-control " id="passwordRegister" placeholder="Ingresar Password ">
+                                    <label for="emailRegister ">Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row justify-content-center ">
+                            <br>
+                            <div class="col-md-6 ">
+<br>
+                                <button [disabled]="registrarForm.invalid" class="w-100 btn btn-lg btn-primary " type="submit ">Crear Usuario</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </form>
+
+    </div>
+
+</div>

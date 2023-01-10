@@ -11,11 +11,9 @@
  */
 
 
-export interface Puntuacion { 
-    comentario?: string;
+export interface User { 
+    email?: string;
     id?: number;
-    idProducto?: number;
-    nivelCalidad?: number;
-    nivelDiseno?: number;
-    nivelPrecio?: number;
+    nombre?: string;
+    password?: string;
 }

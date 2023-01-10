@@ -20,6 +20,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { Select2Module } from 'ng-select2-component';
 import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CookieService } from 'ngx-cookie-service';
     VerComparacionesComponent,
     ProductosComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

@@ -59,7 +59,7 @@ export class ProductoControllerService {
 
     /**
      * createProduct
-     *
+     * 
      * @param productoInDto productoInDto
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -106,7 +106,7 @@ export class ProductoControllerService {
 
     /**
      * deleteByID
-     *
+     * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -150,7 +150,7 @@ export class ProductoControllerService {
 
     /**
      * getAllProductoWithCategory
-     *
+     * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -186,7 +186,7 @@ export class ProductoControllerService {
 
     /**
      * getAllProducts
-     *
+     * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -222,7 +222,7 @@ export class ProductoControllerService {
 
     /**
      * getProductByID
-     *
+     * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

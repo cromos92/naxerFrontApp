@@ -32,12 +32,14 @@ export class ProductosComponent implements OnInit {
   Categoria: any[] = [];
   Puntuacion: any[] = [];
   productoPorIDBuscaso: Producto[] = [];
+  cookies: any;
   constructor(
     private _builder: FormBuilder,
     private productosService: ProductoControllerService,
     private categoriaService: CategoriaControllerService,
     private puntuacionService: PuntuacionControllerService
   ) {
+    
     this.productForm = this._builder.group({
       nombre: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', [Validators.required]),
@@ -53,7 +55,7 @@ export class ProductosComponent implements OnInit {
     this.obtenerProductos();
     this.obtenerCategorias();
   }
-
+  
   obtenerProductos() {
     this.productosService.getAllProductsUsingGET().subscribe((data: any) => {
       console.log(data);
