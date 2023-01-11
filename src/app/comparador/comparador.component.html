@@ -1,11 +1,11 @@
 <div class="album py-5 bg-light">
     <div class="container">
         <div class="row">
-            
+            <form [formGroup]="comparadorForm" (ngSubmit)="enviarFormComparador(comparadorForm.value)">
                 <div class="col-md-4">
                     <label for="nombre" class="label">Seleccionar Producto</label>
-                    <select2 [multiple]="true" [data]="data1" (update)="update('value1', $event)" (change)="change('change1', $event)" (search)="search('search1')" resettable id="selec2-1">
-                   
+                    <select2 [multiple]="true" formControlName="productos" [data]="data1" (update)="update('value1', $event)" (change)="change('change1', $event)" (search)="search('search1')" resettable id="selec2-1">
+
                     </select2>
                 </div>
                 <div class="col-md-3">
@@ -13,63 +13,63 @@
                     <button class="btn btn-success">Comparar</button>
                     <button class="btn btn-info">Limpiar</button>
                 </div>
-               
-             
-            
+            </form>
+
+
         </div>
         <br><br>
         <div class="container">
             <div class="card-deck row text-center">
-              <div class="card col-md-4 box-shadow">
-                <div class="card-header">
-                  <h4 class="my-0 font-weight-normal">Nombre</h4>
+                <div *ngFor='let product of resultadoProductos  ' class="card col-md-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">{{ product.nombre }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <img class="bd-placeholder-img card-img-top" width="100%" height="200" [src]="product.url_image" [alt]="product.url_image">
+                        <ul class="list-unstyled mt-3 mb-4">
+
+                            <li><b>Descripcion :</b> {{ product.descripcion }}</li>
+                            <li> <b>Valoracion Precio Promedio:</b> </li>
+                            <li> <b>Valoracion Calidad Promedio:</b> </li>
+                            <li> <b>Valoracion Diseno Promedio:</b> </li>
+                        </ul>
+
+                    </div>
                 </div>
-                <div class="card-body">
-                    <img class="bd-placeholder-img card-img-top" width="100%" height="200" [src]="" [alt]="">
-                  <ul class="list-unstyled mt-3 mb-4">
-                    <li><b>Nombre :</b> 10 users included</li>
-                    <li><b>Descripcion :</b> 10 users included</li>
-                    <li> <b>Valoracion Precio Promedio:</b> </li>
-                    <li> <b>Valoracion Calidad Promedio:</b> </li>
-                    <li> <b>Valoracion Diseno Promedio:</b> </li>
-                  </ul>
-                   
+                <div class="card col-md-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Pro</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>20 users included</li>
+                            <li>10 GB of storage</li>
+                            <li>Priority email support</li>
+                            <li>Help center access</li>
+                        </ul>
+                        <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+                    </div>
                 </div>
-              </div>
-              <div class="card col-md-4 box-shadow">
-                <div class="card-header">
-                  <h4 class="my-0 font-weight-normal">Pro</h4>
+                <div class="card col-md-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Enterprise</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>30 users included</li>
+                            <li>15 GB of storage</li>
+                            <li>Phone and email support</li>
+                            <li>Help center access</li>
+                        </ul>
+                        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
-                  <ul class="list-unstyled mt-3 mb-4">
-                    <li>20 users included</li>
-                    <li>10 GB of storage</li>
-                    <li>Priority email support</li>
-                    <li>Help center access</li>
-                  </ul>
-                  <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-                </div>
-              </div>
-              <div class="card col-md-4 box-shadow">
-                <div class="card-header">
-                  <h4 class="my-0 font-weight-normal">Enterprise</h4>
-                </div>
-                <div class="card-body">
-                  <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-                  <ul class="list-unstyled mt-3 mb-4">
-                    <li>30 users included</li>
-                    <li>15 GB of storage</li>
-                    <li>Phone and email support</li>
-                    <li>Help center access</li>
-                  </ul>
-                  <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-                </div>
-              </div>
             </div>
-      
-         
-          </div>
+
+
+        </div>
 
 
     </div>
