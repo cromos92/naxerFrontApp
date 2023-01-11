@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Select2Option, Select2UpdateEvent } from 'ng-select2-component';
+import { Select2Data, Select2Option, Select2UpdateEvent } from 'ng-select2-component';
 import Swal from 'sweetalert2';
-
+import { ProductoControllerService } from '../service';
+import {Opciones} from './modelos/Opciones.model';
 @Component({
   selector: 'app-comparador',
   templateUrl: './comparador.component.html',
@@ -9,26 +10,49 @@ import Swal from 'sweetalert2';
 })
 export class ComparadorComponent implements OnInit {
   options: Select2Option | undefined;
-  data1: any = [
-    {
-      label: 'Alaskan/Hawaiian Time Zone',
-      options: [
-        { value: 'AK', label: 'Alaska' },
-        { value: 'HI', label: 'Hawaii', disabled: true },
-      ],
-    },
-    {
-      label: 'Pacific Time Zone',
-      options: [
-        { value: 'CA', label: 'California' },
-        { value: 'NV', label: 'Nevada' },
-        { value: 'OR', label: 'Oregon' },
-        { value: 'WA', label: 'Washington' },
-      ],
-    },
+  ProductsSelect=[];
+  dataSelect: any[] | undefined;
+  data1:any;
+   opciones:Opciones | undefined;
+  constructor( private productosService: ProductoControllerService){
+    this.opciones={ value: 'AK', label: 'Alaska' };
+   this.dataSelect=[ 
+    ];
+    this.data1= [
+      {
+          label: 'Alaskan/wwwwme Zone',
+          options: [
+              this.opciones
+             
+          ],
+      },
+      
+  ];
+  }
+  ngOnInit(): void {
+    console.log('ini');
+    
+ 
+  console.log(this.data1);
+    this.productosService.getAllProductsUsingGET().subscribe((result: any) => {
+ 
+      result.forEach( (value: any) => {
+        this.dataSelect?.push(this.opciones={
+          value:value.nombre,label:
+          value.id
+         }) ;
+        console.log(this.opciones);
+      }); 
+     this.data1[0].options=this.dataSelect;
+    console.log("later");
+    console.log(this.data1);
     
    
-  ];
+  })
+  
+}
+   
+
   change(key: string, event: Event) {
 
     console.log(key, "dd" +event);
@@ -54,11 +78,6 @@ export class ComparadorComponent implements OnInit {
 
     }
   }
-  constructor(){
 
-  }
-  ngOnInit(): void {
-
-  }
 
 }
