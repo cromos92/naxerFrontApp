@@ -34,6 +34,7 @@ import { RegisterComponent } from './register/register.component';
     ProductosComponent,
     LoginComponent,
     RegisterComponent,
+    
   ],
   imports: [
     BrowserModule,

@@ -35,9 +35,11 @@ export class ComparadorComponent implements OnInit {
     private productosService: ProductoControllerService,
     private puntuacionService: PuntuacionControllerService
   ) {
+    
     this.dataSelect = [];
     this.resultadoProductos = [];
         this.resultadoPuntuaciones = [];
+        this.opciones= {label:"Ingresar Valor",value:"0"} ;
     this.data1 = [
       {
         label: 'Listado Productos',
@@ -49,6 +51,7 @@ export class ComparadorComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+  
     this.productosService.getAllProductsUsingGET().subscribe((result: any) => {
       result.forEach((value: any) => {
         this.dataSelect?.push(
@@ -62,33 +65,58 @@ export class ComparadorComponent implements OnInit {
     });
   }
   enviarFormComparador(values: any) {
-    for (let elemento of values.productos) {
+    let puntuar=this.obtenerPromedioPuntuaciones(values.productos);
+    let arrProd= this.obtenerProductosPorID(values.productos);
+   console.log(this.resultadoProductos);
+   
+   
+   
+   
+  }
+
+   
+  obtenerProductosPorID(arrayIdsProductos:any){
+    this.resultadoProductos=[];
+    for (let elemento of arrayIdsProductos) {
       this.productosService
         .getProductByIDUsingGET(elemento)
         .subscribe((data) => {
           this.resultadoProductos?.push(data);
         });
-      this.puntuacionService
-        .getPuntuacionPromedioPorIDUsingGET(elemento)
-        .subscribe((data2) => {
-          this.resultadoPuntuaciones?.push(data2);
-          console.log(data2);
-        });
+      
     }
-    let i = 0;
-    this.resultadoProductos?.forEach((value: any) => {
+   
+    return this.resultadoProductos;
+  }
+  mostrarArr(dataArr:any){
+    for( let data in dataArr){
+      console.log("log arr" +data);
+    }
+  }
+  
 
-      value.promedioCalidad = this.resultadoPuntuaciones?[i]:
-      value.promedioPrecio = 1;
-      value.promedioDiseno = 1;
-      i++;
-    });
-    this.resultadoProductos?.forEach((value: any) => {
-      console.log('aki' + value.promedioCalidad);
-    });
+  obtenerPromedioPuntuaciones(arrayIdsProductos:any){
+    this.resultadoPuntuaciones=[];
+    for (let elemento of arrayIdsProductos) {
+      this.puntuacionService .getPuntuacionPromedioPorIDUsingGET(elemento)
+      .subscribe((data2:any) => {
+        
+        let arrResultado:any[]=data2[0].split(",");
+      
+        for( let dato in arrResultado){
+            
+           if(arrResultado[dato]=="null"){
+            arrResultado[dato]=0;
+           }
+        }
+        this.resultadoPuntuaciones?.push(arrResultado );    
+      });
+    }
+    
+    return this.resultadoPuntuaciones;
   }
   change(key: string, event: Event) {
-    console.log(key, 'dd' + event);
+    
   }
   search(text: string) {
     this.data1 = text
@@ -99,7 +127,7 @@ export class ComparadorComponent implements OnInit {
       : JSON.parse(JSON.stringify(this.data1));
   }
   update(key: string, event: Select2UpdateEvent<any>) {
-    console.log(event.value);
+    
     if (event.value.length > 3) {
       Swal.fire({
         icon: 'error',
