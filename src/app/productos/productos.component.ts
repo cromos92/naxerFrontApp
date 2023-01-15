@@ -5,9 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 import {
   CategoriaControllerService,
+  Puntuacion,
   PuntuacionControllerService,
 } from '../service';
 import { ProductoControllerService } from '../service/api/productoController.service';
@@ -32,6 +34,7 @@ export class ProductosComponent implements OnInit {
   Categoria: any[] = [];
   Puntuacion: any[] = [];
   productoPorIDBuscaso: Producto[] = [];
+
   cookies: any;
   constructor(
     private _builder: FormBuilder,
@@ -39,13 +42,14 @@ export class ProductosComponent implements OnInit {
     private categoriaService: CategoriaControllerService,
     private puntuacionService: PuntuacionControllerService
   ) {
-    
+    // declaro formulario creacion de productos
     this.productForm = this._builder.group({
       nombre: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', [Validators.required]),
       precio: new FormControl('', [Validators.required]),
       url_imagen: new FormControl('', [Validators.required]),
     });
+    // formulario de creacion de puntuaciones
     this.puntuacionForm = this._builder.group({
       valoracionPrecio: new FormControl('', [Validators.required]),
       valoracionCalidad: new FormControl('', [Validators.required]),
@@ -55,33 +59,39 @@ export class ProductosComponent implements OnInit {
     this.obtenerProductos();
     this.obtenerCategorias();
   }
-  
+  // funcion para obtener todos los productos del api
   obtenerProductos() {
-    this.productosService.getAllProductsUsingGET().subscribe((data: any) => {
+    this.productosService.obtenerTodosLosProductosUsingGET().subscribe((data: any) => {
       console.log(data);
       this.Products = data;
     });
   }
+  // funcion para obtener todas las categorias
   obtenerCategorias() {
-    this.categoriaService.getAllCategorysUsingGET().subscribe((data: any) => {
+    this.categoriaService.obtenerTodasLasCategoriasUsingGET().subscribe((data: any) => {
       console.log(data);
       this.Categoria = data;
     });
   }
+  // funcion para obtener producto en especifico por id
   obtenerProductoPorID(id: number) {
-    this.productosService.getProductByIDUsingGET(id).subscribe((data: any) => {
+    this.productosService.obtenerProductoPorIDUsingGET(id).subscribe((data: any) => {
       console.log(data);
       this.productoPorIDBuscaso = data;
     });
   }
-  obtenerPuntuacionPorIdProducto(id: number) {
+  // funcion para obtener todas las puntuaciones de un producto
+  obtenerPuntuacionPorIdProducto(id: any) {
     this.puntuacionService
-      .getAllPuntuacionPorIDUsingGET(id)
+      .obtenerPuntuacionesPorIdProductoUsingGET(id)
       .subscribe((data: any) => {
+        console.log(data);
+
         this.Puntuacion = data;
       });
   }
   ngOnInit(): void {
+    // declaro los modales del bootstrap para su uso
     this.formModal = new window.bootstrap.Modal(
       document.getElementById('modalProductos')
     );
@@ -100,13 +110,12 @@ export class ProductosComponent implements OnInit {
     this.idProductoModal = id;
     this.formModalPuntuacion.show();
   }
+  // modal para ver puntuaciones de un producto
   openModalVerPuntuacion(id: any) {
-    let data = this.obtenerPuntuacionPorIdProducto(id);
-
-    console.log('modal puntuacion');
-
+    this.obtenerPuntuacionPorIdProducto(id);
     this.formModalVerPuntuaciones.show();
   }
+  // funcion para enviar formulario de puntuaciones y crearla
   enviarPuntuacion(values: any) {
     let puntuacion = {
       nivelCalidad: values.valoracionCalidad,
@@ -115,7 +124,7 @@ export class ProductosComponent implements OnInit {
       comentario: values.comentario,
       id_producto: this.idProductoModal,
     };
-
+    // metodo para crear puntuacion
     this.puntuacionService
       .crearPuntuacionUsingPOST(puntuacion)
       .subscribe((data) => {
@@ -128,6 +137,66 @@ export class ProductosComponent implements OnInit {
         this.formModalPuntuacion.hide();
       });
   }
+  // eliminar puntuaciones por id
+  eliminarPuntuacionPorID(id: number) {
+    console.log(id);
+    Swal.fire({
+      title: 'Estas Seguro?',
+      text: "Accion Irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      // si se acepta eliminar
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Puntuacion Eliminada!',
+          'Your file has been deleted.',
+          'success'
+        )
+        let idProducto: number | undefined = 0;
+        //funcion para eliminar puntuaciones por id
+        this.puntuacionService
+          .eliminarPuntuacionesPorIDUsingDELETE(id)
+          .subscribe((data_) => {
+            this.formModalVerPuntuaciones.hide();
+          });
+      }
+    });
+  }
+  // funcion para eliminar producto
+  eliminarProducto(id: any) {
+    Swal.fire({
+      title: 'Estas Seguro?',
+      text: "Accion Irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Producto Eliminado!',
+          'Your file has been deleted.',
+          'success'
+        )
+        // elimino el producto por id
+        this.productosService.eliminarProductoPorIDUsingDELETE(id).subscribe((data) => {
+          console.log(data);
+          this.obtenerProductos();
+        })
+        // elimino todas las puntuaciones asociadas a ese producto
+        this.puntuacionService.eliminarPuntuacionesProductosPorIdProductosUsingDELETE(id).subscribe((data) => {
+          console.log("puntuaciones Eliminadas");
+        });
+
+      }
+    });
+  }
+  // formulario de creacion de productos
   enviarFormProductos(values: any) {
     const now = new Date();
     let productDte = {
@@ -137,7 +206,7 @@ export class ProductosComponent implements OnInit {
       precio: values.precio,
       urlImage: values.url_imagen,
     };
-    this.productosService.createProductUsingPOST(productDte).subscribe((x) => {
+    this.productosService.crearProductoUsingPOST(productDte).subscribe((x: any) => {
       Swal.fire({
         icon: 'success',
         title: 'Operación Correcta',

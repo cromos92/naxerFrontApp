@@ -57,7 +57,7 @@ export class PuntuacionControllerService {
 
 
     /**
-     * crearPuntuacion
+     * CrearPuntuacion
      * 
      * @param puntuacion puntuacion
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -104,19 +104,19 @@ export class PuntuacionControllerService {
     }
 
     /**
-     * getAllPuntuacionPorID
+     * EliminarPuntuacionesPorID
      * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllPuntuacionPorIDUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Puntuacion>>;
-    public getAllPuntuacionPorIDUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Puntuacion>>>;
-    public getAllPuntuacionPorIDUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Puntuacion>>>;
-    public getAllPuntuacionPorIDUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eliminarPuntuacionesPorIDUsingDELETE(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public eliminarPuntuacionesPorIDUsingDELETE(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public eliminarPuntuacionesPorIDUsingDELETE(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public eliminarPuntuacionesPorIDUsingDELETE(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getAllPuntuacionPorIDUsingGET.');
+            throw new Error('Required parameter id was null or undefined when calling eliminarPuntuacionesPorIDUsingDELETE.');
         }
 
         let headers = this.defaultHeaders;
@@ -134,7 +134,7 @@ export class PuntuacionControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<Puntuacion>>(`${this.basePath}/puntuacion/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.basePath}/puntuacion/deletePorID/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -145,15 +145,20 @@ export class PuntuacionControllerService {
     }
 
     /**
-     * getAllPuntuacion
+     * EliminarPuntuacionesProductosPorIdProductos
      * 
+     * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllPuntuacionUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<Puntuacion>>;
-    public getAllPuntuacionUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Puntuacion>>>;
-    public getAllPuntuacionUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Puntuacion>>>;
-    public getAllPuntuacionUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eliminarPuntuacionesProductosPorIdProductosUsingDELETE(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public eliminarPuntuacionesProductosPorIdProductosUsingDELETE(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public eliminarPuntuacionesProductosPorIdProductosUsingDELETE(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public eliminarPuntuacionesProductosPorIdProductosUsingDELETE(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling eliminarPuntuacionesProductosPorIdProductosUsingDELETE.');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -170,7 +175,7 @@ export class PuntuacionControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<Puntuacion>>(`${this.basePath}/puntuacion`,
+        return this.httpClient.delete<any>(`${this.basePath}/puntuacion/deletePuntuacionPorIdProd/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -181,19 +186,60 @@ export class PuntuacionControllerService {
     }
 
     /**
-     * getPuntuacionPromedioPorID
+     * obtenerPuntuacionPorID
      * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPuntuacionPromedioPorIDUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
-    public getPuntuacionPromedioPorIDUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
-    public getPuntuacionPromedioPorIDUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
-    public getPuntuacionPromedioPorIDUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public obtenerPuntuacionPorIDUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<Puntuacion>;
+    public obtenerPuntuacionPorIDUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Puntuacion>>;
+    public obtenerPuntuacionPorIDUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Puntuacion>>;
+    public obtenerPuntuacionPorIDUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getPuntuacionPromedioPorIDUsingGET.');
+            throw new Error('Required parameter id was null or undefined when calling obtenerPuntuacionPorIDUsingGET.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Puntuacion>(`${this.basePath}/puntuacion/puntuacion/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * ObtenerPuntuacionPromediosPorID
+     * 
+     * @param id id
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public obtenerPuntuacionPromediosPorIDUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
+    public obtenerPuntuacionPromediosPorIDUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
+    public obtenerPuntuacionPromediosPorIDUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
+    public obtenerPuntuacionPromediosPorIDUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling obtenerPuntuacionPromediosPorIDUsingGET.');
         }
 
         let headers = this.defaultHeaders;
@@ -212,6 +258,83 @@ export class PuntuacionControllerService {
         ];
 
         return this.httpClient.get<Array<string>>(`${this.basePath}/puntuacion/promedio/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * ObtenerPuntuacionesPorIdProducto
+     * 
+     * @param id id
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public obtenerPuntuacionesPorIdProductoUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Puntuacion>>;
+    public obtenerPuntuacionesPorIdProductoUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Puntuacion>>>;
+    public obtenerPuntuacionesPorIdProductoUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Puntuacion>>>;
+    public obtenerPuntuacionesPorIdProductoUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling obtenerPuntuacionesPorIdProductoUsingGET.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Array<Puntuacion>>(`${this.basePath}/puntuacion/puntuaciones/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * ObtenerTodasLasPuntuaciones
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public obtenerTodasLasPuntuacionesUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<Puntuacion>>;
+    public obtenerTodasLasPuntuacionesUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Puntuacion>>>;
+    public obtenerTodasLasPuntuacionesUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Puntuacion>>>;
+    public obtenerTodasLasPuntuacionesUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Array<Puntuacion>>(`${this.basePath}/puntuacion`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

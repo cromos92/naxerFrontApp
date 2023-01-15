@@ -57,19 +57,66 @@ export class UserControllerService {
 
 
     /**
-     * createUser
+     * BuscarCredencialesUsuario
      * 
      * @param user user
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUserUsingPOST(user: User, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
-    public createUserUsingPOST(user: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
-    public createUserUsingPOST(user: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public createUserUsingPOST(user: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public buscarCredencialesUsuarioUsingPOST(user: User, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public buscarCredencialesUsuarioUsingPOST(user: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public buscarCredencialesUsuarioUsingPOST(user: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public buscarCredencialesUsuarioUsingPOST(user: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling createUserUsingPOST.');
+            throw new Error('Required parameter user was null or undefined when calling buscarCredencialesUsuarioUsingPOST.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<boolean>(`${this.basePath}/login/searchUser`,
+            user,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * CrearUsuario
+     * 
+     * @param user user
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public crearUsuarioUsingPOST(user: User, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public crearUsuarioUsingPOST(user: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public crearUsuarioUsingPOST(user: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public crearUsuarioUsingPOST(user: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling crearUsuarioUsingPOST.');
         }
 
         let headers = this.defaultHeaders;
@@ -93,53 +140,6 @@ export class UserControllerService {
         }
 
         return this.httpClient.post<boolean>(`${this.basePath}/login`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * findUserByCredenciales
-     * 
-     * @param user user
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public findUserByCredencialesUsingPOST(user: User, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public findUserByCredencialesUsingPOST(user: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public findUserByCredencialesUsingPOST(user: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-    public findUserByCredencialesUsingPOST(user: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling findUserByCredencialesUsingPOST.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<string>(`${this.basePath}/login/searchUser`,
             user,
             {
                 withCredentials: this.configuration.withCredentials,

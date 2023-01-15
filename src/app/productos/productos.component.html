@@ -7,12 +7,8 @@
                         <use xlink:href="#bootstrap"></use>
                     </svg>
                 </a>
-
-
-
                 <div class="col-md-4 text-end">
-                    <button type="button" (click)="openModal()" class="btn btn-primary">Agregar Producto</button>
-                    <button type="button" class="btn btn-outline-primary me-2">Eliminar Producto</button>
+                    <button type="button" (click)="openModal()" class="btn btn-primary">Agregar Producto</button>               
                 </div>
             </header>
         </div>
@@ -27,6 +23,7 @@
                             <div class="btn-group center">
                                 <button type="button" (click)="openModalVerPuntuacion(product.id)" class="btn btn-sm btn-outline-secondary">Ver Puntuaciones</button>
                                 <button type="button" (click)="openModalPuntuacion(product.id)" class="btn btn-sm btn-outline-secondary">Puntuar</button>
+                                <button type="button" (click)="eliminarProducto(product.id)" class="btn btn-sm btn-danger">Delete</button>
                             </div>
 
                         </div>
@@ -199,7 +196,7 @@
 
 
                             <div class="card mb-4" *ngFor='let puntuacion of Puntuacion '>
-                                <div class="card-body">
+                                <div id="containerPuntuacion{{puntuacion.id}}" class="card-body">
                                     <p>{{ puntuacion.comentario}}</p>
 
                                     <div class="d-flex justify-content-between">
@@ -223,6 +220,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button (click)="eliminarPuntuacionPorID(puntuacion.id)" class="btn btn-danger">Eliminar</button>
                             </div>
 
 

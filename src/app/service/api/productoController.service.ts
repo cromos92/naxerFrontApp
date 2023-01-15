@@ -58,19 +58,19 @@ export class ProductoControllerService {
 
 
     /**
-     * createProduct
+     * CrearProducto
      * 
      * @param productoInDto productoInDto
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProductUsingPOST(productoInDto: ProductoDto, observe?: 'body', reportProgress?: boolean): Observable<Producto>;
-    public createProductUsingPOST(productoInDto: ProductoDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Producto>>;
-    public createProductUsingPOST(productoInDto: ProductoDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Producto>>;
-    public createProductUsingPOST(productoInDto: ProductoDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public crearProductoUsingPOST(productoInDto: ProductoDto, observe?: 'body', reportProgress?: boolean): Observable<Producto>;
+    public crearProductoUsingPOST(productoInDto: ProductoDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Producto>>;
+    public crearProductoUsingPOST(productoInDto: ProductoDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Producto>>;
+    public crearProductoUsingPOST(productoInDto: ProductoDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (productoInDto === null || productoInDto === undefined) {
-            throw new Error('Required parameter productoInDto was null or undefined when calling createProductUsingPOST.');
+            throw new Error('Required parameter productoInDto was null or undefined when calling crearProductoUsingPOST.');
         }
 
         let headers = this.defaultHeaders;
@@ -105,21 +105,19 @@ export class ProductoControllerService {
     }
 
     /**
-     * deleteByID
+     * EliminarProductoPorID
      * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteByIDUsingDELETE(id?: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public deleteByIDUsingDELETE(id?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public deleteByIDUsingDELETE(id?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-    public deleteByIDUsingDELETE(id?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eliminarProductoPorIDUsingDELETE(id: number, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public eliminarProductoPorIDUsingDELETE(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public eliminarProductoPorIDUsingDELETE(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public eliminarProductoPorIDUsingDELETE(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling eliminarProductoPorIDUsingDELETE.');
         }
 
         let headers = this.defaultHeaders;
@@ -137,9 +135,8 @@ export class ProductoControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<string>(`${this.basePath}/products/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<boolean>(`${this.basePath}/products/delete/${encodeURIComponent(String(id))}`,
             {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -185,55 +182,19 @@ export class ProductoControllerService {
     }
 
     /**
-     * getAllProducts
-     * 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllProductsUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<Producto>>;
-    public getAllProductsUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Producto>>>;
-    public getAllProductsUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Producto>>>;
-    public getAllProductsUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<Array<Producto>>(`${this.basePath}/products`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * getProductByID
+     * ObtenerProductoPorID
      * 
      * @param id id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getProductByIDUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<Producto>;
-    public getProductByIDUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Producto>>;
-    public getProductByIDUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Producto>>;
-    public getProductByIDUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public obtenerProductoPorIDUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<Producto>;
+    public obtenerProductoPorIDUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Producto>>;
+    public obtenerProductoPorIDUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Producto>>;
+    public obtenerProductoPorIDUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getProductByIDUsingGET.');
+            throw new Error('Required parameter id was null or undefined when calling obtenerProductoPorIDUsingGET.');
         }
 
         let headers = this.defaultHeaders;
@@ -252,6 +213,42 @@ export class ProductoControllerService {
         ];
 
         return this.httpClient.get<Producto>(`${this.basePath}/products/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * ObtenerTodosLosProductos
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public obtenerTodosLosProductosUsingGET(observe?: 'body', reportProgress?: boolean): Observable<Array<Producto>>;
+    public obtenerTodosLosProductosUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Producto>>>;
+    public obtenerTodosLosProductosUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Producto>>>;
+    public obtenerTodosLosProductosUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<Array<Producto>>(`${this.basePath}/products`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
